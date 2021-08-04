@@ -1,0 +1,22 @@
+{
+  "name": "uma-atsume",
+  "version": "0.0.1",
+  "description": "競馬情報を集めるぞい",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hidesuke/uma-atsume.git"
+  },
+  "author": "hidesuke",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hidesuke/uma-atsume/issues"
+  },
+  "homepage": "https://github.com/hidesuke/uma-atsume#readme",
+  "dependencies": {
+    "puppeteer": "^10.1.0"
+  }
+}
