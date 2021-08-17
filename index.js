@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const keibaResult = require('./keiba/result');
+const keibaRace = require('./keiba/race');
 
 const target = 'https://db.netkeiba.com/race/202109030411/';
 
@@ -7,9 +8,11 @@ const target = 'https://db.netkeiba.com/race/202109030411/';
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(target);
-    const results = await keibaResult.getAsArray(page);
-    await showOnConsole(results);
-    outputAsCsv(results);
+    // const results = await keibaResult.getAsArray(page);
+    // await showOnConsole(results);
+    // outputAsCsv(results);
+    const raceInfo = await keibaRace.getAsArray(page);
+    console.log(raceInfo);
     await browser.close();
 })();
 
