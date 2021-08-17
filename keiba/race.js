@@ -5,7 +5,7 @@ const getAsArray = async (page) => {
     const place = await getPlace(page);
     const number = await getNumber(page);
     const name = await getName(page);
-    const [course, weather, courseKind, courseCondition] = await getConditions(page);
+    const [course, weather, courseKind, courseCondition, distance] = await getConditions(page);
     const [date, raceKinds] = await getDetail(page);
     return [
         id,
@@ -15,6 +15,7 @@ const getAsArray = async (page) => {
         number,
         name,
         course,
+        distance,
         courseKind,
         courseCondition,
         weather,
@@ -49,10 +50,11 @@ const getName = async (page) => {
 const getConditions = async (page) => {
     const conditionSelector = 'dl.racedata > dd > p > diary_snap_cut > span';
     const conditionsText = await getTextBySelector(page, conditionSelector);
-    const conditionsArray = conditionsText.split('/').map(x => x.trim());
-    const weather = conditionsArray[1].split(':')[1].trim();
-    const [courseKind, courseCondition] = conditionsArray[2].split(':').map(x => x.trim());
-    return [conditionsArray[0], weather, courseKind, courseCondition];
+    const conditions = conditionsText.split('/').map(x => x.trim());
+    const weather = conditions[1].split(':')[1].trim();
+    const [courseKind, courseCondition] = conditions[2].split(':').map(x => x.trim());
+    const distance = conditions[0].match(/\d+/)[0];
+    return [conditions[0], weather, courseKind, courseCondition, distance];
 };
 
 const getDetail = async (page) => {
