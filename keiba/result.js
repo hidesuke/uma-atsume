@@ -1,11 +1,44 @@
+/**
+ * 
+ * @param {*} page 
+ * @returns Array(Array)
+ * [出力のデータ構成]
+ *  0: レースID
+ *  1: 着順
+ *  2: 枠番
+ *  3: 馬番
+ *  4: 馬ID
+ *  5: 馬名
+ *  6: 性齢
+ *  7: 斤量
+ *  8: 騎手ID
+ *  9: 騎手 
+ *  10: タイム
+ *  11: 着差 (1着は空)
+ *  12: 通過
+ *  13: 上り
+ *  14: 単勝
+ *  15: 人気
+ *  16: 馬体重
+ *  17: 調教師ID
+ *  18: 調教師
+ *  19: 馬主
+ */
 const getAsArray = async (page) => {
     const raceResults = await getRaceResults(page);
     raceResults.shift(); // remove table header
     const results = [];
+    const raceId = await getRaceId(page);
     for (const result of raceResults) {
-        results.push(await umahashiraToArray(result));
+        // 配列の頭にraceIdを入れる
+        results.push([raceId, ...(await umahashiraToArray(result))]);
     }
     return results;
+}
+
+const getRaceId = (page) => {
+    const url = page.url();
+    return url.split('/').slice(-2, -1)[0];
 }
 
 const getRaceResults = async (page) => {
@@ -53,28 +86,6 @@ const umahashiraToArray = async (umahashira) => {
         const textData = await (await cells[i].getProperty('textContent')).jsonValue()
         retArray.push(textData.trim().replace('\n', ''));
     }
-    /**
-    [出力のデータ構成]
-    0: 着順
-    1: 枠番
-    2: 馬番
-    3: 馬ID
-    4: 馬名
-    5: 性齢
-    6: 斤量
-    7: 騎手ID
-    8: 騎手 
-    9: タイム
-    10: 着差 (1着は空)
-    11: 通過
-    12: 上り
-    13: 単勝
-    14: 人気
-    15: 馬体重
-    16: 調教師ID
-    17: 調教師
-    18: 馬主
-     */
     return retArray;
 };
 
