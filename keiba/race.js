@@ -2,7 +2,7 @@
 
 const getAsArray = async (page) => {
     const id = await getId(page);
-    const place = await getPlace(page);
+    const place = getPlace(id);
     const number = await getNumber(page);
     const name = await getName(page);
     const [course, weather, courseKind, courseCondition, distance] = await getConditions(page);
@@ -32,9 +32,21 @@ const getTextBySelector = async (page, selector) => {
     return (await (await dom.getProperty('textContent')).jsonValue()).trim();
 }
 
-const getPlace = async (page) => {
-    const placeSelector = 'ul.race_place > li > a.active';
-    return await getTextBySelector(page, placeSelector);
+const getPlace = (id) => {
+    const placeMaster = {
+        '01': '札幌',
+        '02': '函館',
+        '03': '福島',
+        '04': '新潟',
+        '05': '東京',
+        '06': '中山',
+        '07': '中京',
+        '08': '京都',
+        '09': '阪神',
+        '10': '小倉',
+    };
+    const placeId = id.slice(4, 6);
+    return placeMaster[placeId];
 }
 
 const getNumber = async (page) => {
